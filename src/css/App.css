@@ -1,0 +1,8 @@
+.side {
+  min-height: 100vh;
+  padding: 4px;
+}
+
+.side-item {
+  margin-bottom: 5px;
+}

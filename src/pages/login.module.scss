@@ -1,0 +1,55 @@
+.login {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  /* background: azure; */
+  align-items: center;
+  justify-content: center;
+  // background: url("../assets/login/login_bg.svg") no-repeat;
+  // background: #c0c0c0;
+  background-size: cover;
+  @apply bg-slate-50 #{!important};
+  // @apply bg-[#1890ff] #{!important};
+
+  .loginBox {
+    display: flex;
+    display: -webkit-flex;
+    height: 457px;
+    width: 841px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 40px;
+    align-items: center;
+
+    .boxLeft {
+      flex: 1;
+      height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 351px;
+        height: 285px;
+      }
+    }
+
+    .boxRight {
+      flex: 1;
+      height: 90%;
+
+      .loginTitle {
+        font-size: 28px;
+      }
+
+      .loginBtn {
+        background: #0089ff;
+        border-radius: 30px;
+        width: 268px;
+        height: 49px;
+        font-size: 18px;
+      }
+    }
+  }
+}
