@@ -14,7 +14,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout
 
-const ALayout = () => {
+const BaseLayout = () => {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
@@ -93,4 +93,4 @@ const ALayout = () => {
     </Layout>
   )
 }
-export default ALayout
+export default BaseLayout

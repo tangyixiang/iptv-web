@@ -7,6 +7,7 @@ import LeftBg from '../assets/login_left.png'
 import { setSessionToken, clearSessionToken } from '../utils/access'
 import useGlobalStore from '../store'
 import { observer } from 'mobx-react-lite'
+import { login, getUserInfo } from '../api/user'
 
 function Login() {
   const [uuid, setUuid] = useState('')
@@ -24,7 +25,7 @@ function Login() {
   const handleSubmit = async (values) => {
     try {
       // 登录
-      const response = await request.post('/auth/login', { ...values, uuid })
+      const response = await login(values)
       if (response.status === 200) {
         const current = new Date()
         const expireTime = current.setTime(
@@ -32,9 +33,9 @@ function Login() {
         )
         setSessionToken(response.data.token, expireTime)
         message.success('登录成功')
-        request.get('/auth/userInfo').then((res) => {
-          const { userName, nickName } = res.data
-          userStore.setUserInfo({ userName, nickName })
+        getUserInfo().then((res) => {
+          const { name, user_name } = res.data
+          userStore.setUserInfo({ name, user_name })
           navigate(from, { replace: true })
         })
         return

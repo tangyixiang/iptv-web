@@ -6,17 +6,24 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Button, Modal, Form, Row, Col, Typography, Divider } from 'antd'
-import service from '../utils/request'
+import {
+  Button,
+  Modal,
+  Form,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  message,
+} from 'antd'
+import { listDevice, addDevice, delDevice } from '../api/devices'
 
 function Devices() {
   const actionRef = useRef()
   const [form] = Form.useForm()
   const formRef = useRef()
-  const [selectedRowsState, setSelectedRows] = useState([])
-  const [currentRow, setCurrentRow] = useState({})
-  const [modalVisible, setModalVisible] = useState(false)
   const [open, setOpen] = useState(false)
+  const [readOnly, setReadOnly] = useState(false)
 
   const columns = [
     {
@@ -76,8 +83,9 @@ function Devices() {
           size="small"
           key="info"
           onClick={() => {
-            setModalVisible(true)
-            setCurrentRow(record)
+            setOpen(true)
+            setReadOnly(true)
+            form.setFieldsValue(record)
           }}
         >
           详情
@@ -87,8 +95,8 @@ function Devices() {
           size="small"
           key="edit"
           onClick={() => {
-            setModalVisible(true)
-            setCurrentRow(record)
+            setOpen(true)
+            form.setFieldsValue(record)
           }}
         >
           编辑
@@ -105,10 +113,11 @@ function Devices() {
               okText: '确认',
               cancelText: '取消',
               onOk: async () => {
-                const success = await handleRemoveOne(record)
-                if (success) {
-                  actionRef.current?.reload()
-                }
+                delDevice(record.id)
+                  .then((res) => {
+                    actionRef.current?.reload()
+                  })
+                  .catch((e) => message.error('删除失败'))
               },
             })
           }}
@@ -124,12 +133,24 @@ function Devices() {
   }
   const handleCancel = () => {
     setOpen(false)
+    setReadOnly(false)
     form.resetFields()
   }
   const handleFinish = async (values) => {
     // console.log('最后提交数据', values);
-    props.onSubmit(values)
-    return true
+    addDevice(values)
+      .then((res) => {
+        let msg = ''
+        if (values.id) {
+          msg = '更新成功'
+        } else {
+          msg = '新增成功'
+        }
+        message.success(msg)
+        handleCancel()
+        actionRef.current.reload()
+      })
+      .catch((e) => message.error('操作失败'))
   }
 
   return (
@@ -144,7 +165,6 @@ function Devices() {
             type="primary"
             key="add"
             onClick={async () => {
-              setCurrentRow(undefined)
               setOpen(true)
             }}
           >
@@ -158,7 +178,7 @@ function Devices() {
           showTotal: (total) => `总共 ${total} 条`,
         }}
         request={(params) =>
-          service.get('/device/list', { params: params }).then((res) => {
+          listDevice(params).then((res) => {
             const result = {
               data: res.list,
               total: res.total,
@@ -167,14 +187,6 @@ function Devices() {
             return result
           })
         }
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows)
-            if (props.selectRow) {
-              props.selectRow(selectedRows)
-            }
-          },
-        }}
       />
       <Modal
         forceRender
@@ -184,6 +196,7 @@ function Devices() {
         destroyOnClose
         onOk={handleOk}
         onCancel={handleCancel}
+        footer={readOnly ? null : undefined}
       >
         <ProForm
           form={form}
@@ -191,22 +204,17 @@ function Devices() {
           layout="horizontal"
           submitter={false}
           formRef={formRef}
+          readonly={readOnly}
         >
           <Row gutter={[16, 16]}>
             <Col span={24} order={1}>
               <ProFormDigit
-                name="userId"
-                label={'用户ID'}
-                labelCol={{ span: 4 }}
+                name="id"
+                label={'id'}
+                labelCol={{ span: 5 }}
                 placeholder="请输入用户ID"
                 disabled
                 hidden={true}
-                rules={[
-                  {
-                    required: false,
-                    message: '请输入用户ID！',
-                  },
-                ]}
               />
             </Col>
           </Row>
@@ -216,7 +224,7 @@ function Devices() {
               <ProFormText
                 name="location_id"
                 label={'安装实体'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入安装实体"
                 rules={[
                   {
@@ -230,9 +238,9 @@ function Devices() {
           <Row gutter={[16, 16]}>
             <Col span={24} order={1}>
               <ProFormText
-                name="romm_id"
+                name="room_id"
                 label={'安装房间号'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入安装房间号"
                 rules={[
                   {
@@ -246,25 +254,9 @@ function Devices() {
           <Row gutter={[16, 16]}>
             <Col span={24} order={1}>
               <ProFormText
-                name="location_id"
-                label={'安装实体'}
-                labelCol={{ span: 4 }}
-                placeholder="请输入安装实体"
-                rules={[
-                  {
-                    required: true,
-                    message: '请输入安装实体！',
-                  },
-                ]}
-              />
-            </Col>
-          </Row>
-          <Row gutter={[16, 16]}>
-            <Col span={24} order={1}>
-              <ProFormText
                 name="rom_version"
                 label={'固件版本'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入固件版本"
                 rules={[
                   {
@@ -280,7 +272,7 @@ function Devices() {
               <ProFormText
                 name="iptv_network_plan"
                 label={'IPTV方案'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入IPTV方案"
                 rules={[
                   {
@@ -298,7 +290,7 @@ function Devices() {
               <ProFormText
                 name="mac_address"
                 label={'MAC地址'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入MAC地址"
                 rules={[
                   {
@@ -314,7 +306,7 @@ function Devices() {
               <ProFormText
                 name="ip_address"
                 label={'远程控制IP地址'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入远程控制IP地址"
                 rules={[
                   {
@@ -330,7 +322,7 @@ function Devices() {
               <ProFormText
                 name="port"
                 label={'端口'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
                 placeholder="请输入端口"
                 rules={[
                   {
@@ -348,7 +340,7 @@ function Devices() {
               <ProFormTextArea
                 name="other_info"
                 label={'其他信息'}
-                labelCol={{ span: 4 }}
+                labelCol={{ span: 5 }}
               />
             </Col>
           </Row>

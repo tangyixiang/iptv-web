@@ -1,12 +1,13 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ALayout from './components/ALayout'
+import BaseLayout from './components/BaseLayout'
 import IptvPlan from './pages/IptvPlan'
 import Devices from './pages/Devices'
 import DeviceConfig from './pages/DeviceConfig'
 import Location from './pages/Location'
 import Rom from './pages/Rom'
 import Login from './pages/Login'
+import RequireAuth from './components/RequireAuth'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <ALayout />,
+    element: (
+      <RequireAuth>
+        <BaseLayout />
+      </RequireAuth>
+    ),
     children: [
       {
         path: '/devices',
