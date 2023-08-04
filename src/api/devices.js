@@ -43,6 +43,7 @@ export function changeDeviceEth(data) {
   return request({
     url: '/adb/eth',
     method: 'post',
+    data: data,
   })
 }
 
@@ -50,6 +51,7 @@ export function changeDeviceWifi(data) {
   return request({
     url: '/adb/wifi',
     method: 'post',
+    data: data,
   })
 }
 
@@ -57,5 +59,6 @@ export function changeDeviceHotspot(data) {
   return request({
     url: '/adb/hotspot',
     method: 'post',
+    data: data,
   })
 }

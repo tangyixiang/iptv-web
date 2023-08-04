@@ -522,13 +522,14 @@ function Devices() {
               className="mb-2"
               onClick={() => {
                 const data = {
-                  deivceId: deviceId,
+                  deviceId: deviceId,
                   open: maintainForm.getFieldValue('eth_open'),
                   ip_model: maintainForm.getFieldValue('eth_ip_model'),
                   ip_address: maintainForm.getFieldValue('eth_ip_address'),
                   mask: maintainForm.getFieldValue('eth_mask'),
                   gateway: maintainForm.getFieldValue('eth_gateway'),
                 }
+                console.log(data)
                 changeDeviceEth(data)
                   .then((res) => message.success('修改成功'))
                   .catch((e) => message.error('修改失败'))
