@@ -525,7 +525,7 @@ function Devices() {
                   deivceId: deviceId,
                   open: maintainForm.getFieldValue('eth_open'),
                   ip_model: maintainForm.getFieldValue('eth_ip_model'),
-                  ip_model: maintainForm.getFieldValue('eth_ip_address'),
+                  ip_address: maintainForm.getFieldValue('eth_ip_address'),
                   mask: maintainForm.getFieldValue('eth_mask'),
                   gateway: maintainForm.getFieldValue('eth_gateway'),
                 }
