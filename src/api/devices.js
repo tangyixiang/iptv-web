@@ -23,6 +23,14 @@ export function delDevice(dataId) {
   })
 }
 
+export function getDeviceConfig(data) {
+  return request({
+    url: '/device_config/info',
+    method: 'get',
+    params: data,
+  })
+}
+
 export function rebootDevice(data) {
   return request({
     url: '/adb/reboot',
