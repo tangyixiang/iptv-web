@@ -166,24 +166,22 @@ function Devices() {
           onClick={() => {
             getDeviceConfig({ id: record.id }).then((res) => {
               if (res.data) {
-                console.log(res.data)
                 maintainForm.setFieldsValue({
                   apk_model:
-                    res.data.data.apk_install_swtich == 1 ? 'true' : 'false',
-                  eth_open: res.data.data.eth_swtich == 1 ? 'true' : 'false',
-                  eth_ip_model: res.data.data.eth_ip_method,
-                  eth_ip_address: res.data.data.eth_ip_address,
-                  eth_mask: res.data.data.eth_net_mask,
-                  eth_gateway: res.data.data.eth_gateway,
+                    res.data.apk_install_swtich == 1 ? 'true' : 'false',
+                  eth_open: res.data.eth_swtich == 1 ? 'true' : 'false',
+                  eth_ip_model: res.data.eth_ip_method,
+                  eth_ip_address: res.data.eth_ip_address,
+                  eth_mask: res.data.eth_net_mask,
+                  eth_gateway: res.data.eth_gateway,
 
-                  wlan_open: res.data.data.wlan_swtich == 1 ? 'true' : 'false',
-                  wlan_ssid: res.data.data.wlan_ssid,
-                  wlan_password: res.data.data.wlan_password,
+                  wlan_open: res.data.wlan_swtich == 1 ? 'true' : 'false',
+                  wlan_ssid: res.data.wlan_ssid,
+                  wlan_password: res.data.wlan_password,
 
-                  hotspot_open:
-                    res.data.data.hotspot_swtich == 1 ? 'true' : 'false',
-                  hotspot_name: res.data.data.hotspot_ssid,
-                  hotspot_password: res.data.data.hotspot_password,
+                  hotspot_open: res.data.hotspot_swtich == 1 ? 'true' : 'false',
+                  hotspot_name: res.data.hotspot_ssid,
+                  hotspot_password: res.data.hotspot_password,
                 })
               }
               setMaintineModal(true)
@@ -270,7 +268,7 @@ function Devices() {
 
   const handleMaintineCancel = () => {
     setMaintineModal(false)
-    maintainFormRef.resetFields()
+    maintainForm.resetFields()
   }
 
   return (
@@ -553,7 +551,6 @@ function Devices() {
                   mask: maintainForm.getFieldValue('eth_mask'),
                   gateway: maintainForm.getFieldValue('eth_gateway'),
                 }
-                console.log(data)
                 changeDeviceEth(data)
                   .then((res) => message.success('修改成功'))
                   .catch((e) => message.error('修改失败'))
