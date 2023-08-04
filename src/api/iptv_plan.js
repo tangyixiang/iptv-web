@@ -1,5 +1,12 @@
 import request from '../utils/request'
 
+export function allIptvPlan() {
+  return request({
+    url: '/iptv/all',
+    method: 'get',
+  })
+}
+
 export function listIptvPlan(query) {
   return request({
     url: '/iptv/list',

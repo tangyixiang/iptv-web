@@ -41,11 +41,6 @@ const BaseLayout = () => {
               label: '设备列表',
             },
             {
-              key: '/device/config',
-              icon: <VideoCameraOutlined />,
-              label: '设备维护',
-            },
-            {
               key: '/location',
               icon: <ShopOutlined />,
               label: '安装实体管理',

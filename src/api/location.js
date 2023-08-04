@@ -1,5 +1,12 @@
 import request from '../utils/request'
 
+export function allLocation() {
+  return request({
+    url: '/location/all',
+    method: 'get',
+  })
+}
+
 export function listLocation(query) {
   return request({
     url: '/location/list',

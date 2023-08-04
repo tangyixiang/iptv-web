@@ -22,3 +22,40 @@ export function delDevice(dataId) {
     method: 'delete',
   })
 }
+
+export function rebootDevice(data) {
+  return request({
+    url: '/adb/reboot',
+    method: 'post',
+    data: data,
+  })
+}
+
+export function apkopenDevice(data) {
+  return request({
+    url: '/adb/apk/open',
+    method: 'post',
+    data: data,
+  })
+}
+
+export function changeDeviceEth(data) {
+  return request({
+    url: '/adb/eth',
+    method: 'post',
+  })
+}
+
+export function changeDeviceWifi(data) {
+  return request({
+    url: '/adb/wifi',
+    method: 'post',
+  })
+}
+
+export function changeDeviceHotspot(data) {
+  return request({
+    url: '/adb/hotspot',
+    method: 'post',
+  })
+}

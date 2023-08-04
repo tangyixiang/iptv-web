@@ -1,5 +1,12 @@
 import request from '../utils/request'
 
+export function allRom() {
+  return request({
+    url: '/rom/all',
+    method: 'get',
+  })
+}
+
 export function listRom(query) {
   return request({
     url: '/rom/list',

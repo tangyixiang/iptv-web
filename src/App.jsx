@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import BaseLayout from './components/BaseLayout'
 import IptvPlan from './pages/IptvPlan'
 import Devices from './pages/Devices'
-import DeviceConfig from './pages/DeviceConfig'
 import Location from './pages/Location'
 import Rom from './pages/Rom'
 import Login from './pages/Login'
@@ -25,10 +24,6 @@ const router = createBrowserRouter([
       {
         path: '/devices',
         element: <Devices />,
-      },
-      {
-        path: '/device/config',
-        element: <DeviceConfig />,
       },
       {
         path: '/location',
