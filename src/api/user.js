@@ -1,6 +1,12 @@
 import request from '../utils/request'
+import { MD5 } from 'crypto-js'
 
-export function login(data) {
+export function login(params) {
+  const data = {
+    ...params,
+    password: MD5(params.password.trim()).toString(),
+  }
+
   return request({
     url: '/auth/login',
     method: 'post',

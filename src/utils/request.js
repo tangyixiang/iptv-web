@@ -12,7 +12,8 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  //   baseURL: import.meta.env.VITE_APP_BASE_URL || "http://localhost:5173/api",
+  baseURL: '/api',
   // 超时
   timeout: 60 * 1000,
 })
@@ -70,6 +71,9 @@ service.interceptors.response.use(
     } else if (code === 500) {
       message.error(msg)
       return Promise.reject(new Error(msg))
+    } else if (code === 501) {
+      message.error(res.data.detail)
+      return Promise.reject(new Error(res.data.detail))
     } else if (code !== 200) {
       message.error(msg)
       return Promise.reject('error')

@@ -34,8 +34,8 @@ export function getDeviceConfig(data) {
 export function rebootDevice(data) {
   return request({
     url: '/adb/reboot',
-    method: 'post',
-    data: data,
+    method: 'get',
+    params: data,
   })
 }
 
