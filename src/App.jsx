@@ -7,6 +7,7 @@ import Location from './pages/Location'
 import Rom from './pages/Rom'
 import Login from './pages/Login'
 import RequireAuth from './components/RequireAuth'
+import User from './pages/User'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: '/iptv/plan',
         element: <IptvPlan />,
+      },
+      {
+        path: '/user',
+        element: <User />,
       },
     ],
   },

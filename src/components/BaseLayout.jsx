@@ -4,7 +4,7 @@ import {
   MenuUnfoldOutlined,
   DeploymentUnitOutlined,
   CloudServerOutlined,
-  VideoCameraOutlined,
+  UserOutlined,
   AndroidOutlined,
   ShopOutlined,
 } from '@ant-design/icons'
@@ -54,6 +54,11 @@ const BaseLayout = () => {
               key: '/iptv/plan',
               icon: <DeploymentUnitOutlined />,
               label: 'iptv方案',
+            },
+            {
+              key: '/user',
+              icon: <UserOutlined />,
+              label: '用户列表',
             },
           ]}
         />
