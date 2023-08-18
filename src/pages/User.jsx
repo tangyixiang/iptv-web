@@ -62,7 +62,7 @@ function User() {
         <Button
           type="link"
           size="small"
-          key="edit"
+          key="changepwd"
           onClick={() => {
             setChangePwd(true)
             form2.setFieldsValue(record)

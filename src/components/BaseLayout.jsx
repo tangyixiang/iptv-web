@@ -7,10 +7,13 @@ import {
   UserOutlined,
   AndroidOutlined,
   ShopOutlined,
+  DownOutlined,
 } from '@ant-design/icons'
-import { Layout, Menu, Button, theme } from 'antd'
+import { Layout, Menu, Button, theme, Dropdown, Space, message } from 'antd'
 import '../css/App.css'
 import { Outlet, useNavigate } from 'react-router-dom'
+import useGlobalStore from '../store'
+import { clearSessionToken } from '../utils/access'
 
 const { Header, Sider, Content } = Layout
 
@@ -20,7 +23,27 @@ const BaseLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken()
 
+  const { userStore } = useGlobalStore()
+
   const navigate = useNavigate()
+
+  const handleLogout = () => {
+    clearSessionToken()
+    message.success('退出成功', 1, () => {
+      navigate('/login')
+    })
+  }
+
+  const items = [
+    {
+      key: '1',
+      label: (
+        <Button type="text" onClick={handleLogout}>
+          退出系统
+        </Button>
+      ),
+    },
+  ]
 
   return (
     <Layout>
@@ -70,16 +93,29 @@ const BaseLayout = () => {
             background: colorBgContainer,
           }}
         >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
+          <div className="flex justify-between">
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Dropdown
+              className="pr-9"
+              menu={{
+                items,
+              }}
+            >
+              <Space>
+                {userStore.userInfo.name}
+                <DownOutlined />
+              </Space>
+            </Dropdown>
+          </div>
         </Header>
         <Content
           style={{
